@@ -1,7 +1,11 @@
-﻿using SimpleBotCore.Logic;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using SimpleBotCore.Logic;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SimpleBotCore.Repositories
@@ -10,9 +14,15 @@ namespace SimpleBotCore.Repositories
     {
         Dictionary<string, SimpleUser> _users = new Dictionary<string, SimpleUser>();
 
+      
+        public UserProfileMockRepository()
+        {
+           
+        }
+
         public SimpleUser TryLoadUser(string userId)
         {
-            if( Exists(userId) )
+            if (Exists(userId))
             {
                 return GetUser(userId);
             }
@@ -22,7 +32,7 @@ namespace SimpleBotCore.Repositories
 
         public SimpleUser Create(SimpleUser user)
         {
-            if ( Exists(user.Id) )
+            if (Exists(user.Id))
                 throw new InvalidOperationException("Usuário ja existente");
 
             SaveUser(user);
@@ -89,6 +99,8 @@ namespace SimpleBotCore.Repositories
         {
             _users[user.Id] = user;
         }
+
+       
     }
 }
 
